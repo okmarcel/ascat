@@ -4,28 +4,37 @@ Project ASCat {
 
 Table users {
   user_id integer [pk, increment]
-  username varchar(50) [not null, unique]
-  email varchar(100) [not null, unique]
+  username varchar(50) [not null, note: 'Case-insensitive unique lower(username) index.']
+  email varchar(100) [not null, note: 'Case-insensitive unique lower(email) index.']
   password_hash text [not null]
-  role varchar(10) [not null, note: 'user or admin']
-  is_active boolean [not null]
+  role varchar(10) [not null, default: 'user', note: 'user or admin']
+  is_active boolean [not null, default: true]
+
+  indexes {
+    `lower(username)` [unique, name: 'users_username_ci_uidx']
+    `lower(email)` [unique, name: 'users_email_ci_uidx']
+  }
 }
 
 Table samples {
   sample_id integer [pk, increment]
   owner_id integer [not null]
   name varchar(100) [not null]
-  length_seconds decimal(10,2) [not null]
-  bpm integer [null]
-  file_format varchar(10) [not null]
-  upload_date timestamp [not null]
+  length_seconds numeric(12,6) [not null]
+  bpm integer [null, note: '50–300 inclusive.']
+  file_format varchar(10) [not null, note: 'wav, mp3, flac or ogg.']
+  upload_date timestamptz [not null, default: `CURRENT_TIMESTAMP`]
   storage_key text [not null, unique]
   is_deleted boolean [not null, default: false]
 }
 
 Table tags {
   tag_id integer [pk, increment]
-  name varchar(50) [not null, unique]
+  name varchar(50) [not null, note: 'Case-insensitive unique lower(name) index.']
+
+  indexes {
+    `lower(name)` [unique, name: 'tags_name_ci_uidx']
+  }
 }
 
 Table sample_tags {
@@ -56,7 +65,7 @@ Table ratings {
   rating_id integer [pk, increment]
   user_id integer [not null]
   sample_id integer [not null]
-  rating integer [not null]
+  rating integer [not null, note: '1–5 whole stars.']
 
   indexes {
     (user_id, sample_id) [unique]
@@ -69,13 +78,13 @@ Table downloads {
   download_id integer [pk, increment]
   user_id integer [not null]
   sample_id integer [null, note: 'Becomes NULL after permanent sample deletion.']
-  downloaded_at timestamp [not null]
+  downloaded_at timestamptz [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Table login_events {
   login_event_id integer [pk, increment]
   user_id integer [not null]
-  logged_in_at timestamp [not null]
+  logged_in_at timestamptz [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Ref: samples.owner_id > users.user_id [delete: restrict]

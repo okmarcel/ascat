@@ -32,7 +32,7 @@ erDiagram
         decimal length_seconds
         integer bpm "nullable"
         varchar file_format
-        timestamp upload_date
+        timestamptz upload_date
         text storage_key UK
         boolean is_deleted
     }
@@ -69,13 +69,13 @@ erDiagram
         integer download_id PK
         integer user_id FK
         integer sample_id FK "nullable"
-        timestamp downloaded_at
+        timestamptz downloaded_at
     }
 
     login_events {
         integer login_event_id PK
         integer user_id FK
-        timestamp logged_in_at
+        timestamptz logged_in_at
     }
 ```
 

@@ -86,10 +86,13 @@ backend validation.
 Planned constrains include:
 - sample name cannot be empty
 - sample length must be greater than zero
-- tempo (BPM) must be within valid range
-- file format must belong to a supported set
-- rating must be within valid range
+- tempo (BPM) must be an integer from 50 to 300 when present
+- file format must be wav, mp3, flac or ogg
+- rating must be an integer from 1 to 5
 - one user may rate a given sample only once
+- sample names may repeat
+- usernames, emails and tag names are unique without regard to case
+- event dates use timestamptz; UTC sessions and localized display times
 
 ### Database Views
 

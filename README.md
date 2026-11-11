@@ -36,7 +36,7 @@ docker compose ps
 On the first start with an empty Docker volume, PostgreSQL automatically runs
 `database/migrations/00_create_schema.sql` and creates the ASCat schema. Scripts
 in `/docker-entrypoint-initdb.d` are not rerun when an existing database volume
-is reused.
+is reused. The initial script defines tables, constraints and indexes.
 
 ## Recreating the development database
 

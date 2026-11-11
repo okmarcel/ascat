@@ -1,7 +1,8 @@
 # Data Model
 
 Scope: [PLANNING.md](PLANNING.md). Diagrams: [ERD](diagrams/ERD.md),
-[DFD](diagrams/DFD.md). This is the target model; the SQL migration is not yet aligned.
+[DFD](diagrams/DFD.md). Schema details: [data dictionary](DATA_DICTIONARY.md)
+and [normalization](NORMALIZATION.md).
 
 ## Entities
 
@@ -23,6 +24,14 @@ FK = foreign key, UK = unique key. Join tables use composite primary keys.
 Each sample and collection has one owner (1:N). Samples–tags and
 samples–collections are N:M. Users, samples, tags and collections may have
 no related records. Ratings store one current value per user and sample.
+
+## Domains
+
+BPM is an optional integer from 50 to 300. Ratings are whole stars from 1 to 5.
+Formats are wav, mp3, flac and ogg (lowercase, without a dot). Sample names
+may repeat. Usernames, emails and tag names are unique without regard to case.
+Durations use numeric(12,6) seconds; event dates use timestamptz with defaults
+of CURRENT_TIMESTAMP. Use UTC sessions and localize display times in the UI.
 
 ## Access and storage
 
