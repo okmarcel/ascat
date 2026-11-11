@@ -62,12 +62,21 @@ Database should contain meaningful 1:N and N:M relations.
 Planned relations:
 - user -> samples (1:N)
 - user -> downloads (1:N)
+- user -> login_events (1:N)
 - user -> ratings (1:N)
 - sample -> ratings (1:N)
 - sample -> downloads (1:N)
 - samples <-> tags (N:M)
-- users <-> collections (N:M)
+- user -> collections (1:N)
 - samples <-> collections (N:M)
+
+Active samples form a shared catalog for authenticated users. Users may edit
+and soft-delete only their own samples. Collections are private to their owner
+and may contain active samples uploaded by any user; collections are not
+shared for editing.
+
+Model: [DATA_MODEL.md](DATA_MODEL.md), [ERD](diagrams/ERD.md),
+[DFD](diagrams/DFD.md).
 
 ### Data Integrity and Validation
 
@@ -207,6 +216,8 @@ Only an administrator can permanently remove a sample from the database.
 - Meaningful 1:N and N:M relations
 - Forms or views for browsing and editing application data
 - At least three reports backed by database queries or views
+- Database views for recurring reports and statistics
+- Database functions and triggers for selected business rules
 
 ### Should have
 
@@ -214,8 +225,6 @@ Only an administrator can permanently remove a sample from the database.
 - One rating per user and sample
 - Aggregate rating information in sample and user reports
 - Administrative panel or a complete set of admin-only API operations
-- Database views for recurring reports and statistics
-- Database functions and triggers for selected business rules
 
 ### Could have
 

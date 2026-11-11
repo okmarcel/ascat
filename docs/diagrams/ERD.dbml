@@ -1,0 +1,91 @@
+Project ASCat {
+  database_type: 'PostgreSQL'
+}
+
+Table users {
+  user_id integer [pk, increment]
+  username varchar(50) [not null, unique]
+  email varchar(100) [not null, unique]
+  password_hash text [not null]
+  role varchar(10) [not null, note: 'user or admin']
+  is_active boolean [not null]
+}
+
+Table samples {
+  sample_id integer [pk, increment]
+  owner_id integer [not null]
+  name varchar(100) [not null]
+  length_seconds decimal(10,2) [not null]
+  bpm integer [null]
+  file_format varchar(10) [not null]
+  upload_date timestamp [not null]
+  storage_key text [not null, unique]
+  is_deleted boolean [not null, default: false]
+}
+
+Table tags {
+  tag_id integer [pk, increment]
+  name varchar(50) [not null, unique]
+}
+
+Table sample_tags {
+  sample_id integer [not null]
+  tag_id integer [not null]
+
+  indexes {
+    (sample_id, tag_id) [pk]
+  }
+}
+
+Table collections {
+  collection_id integer [pk, increment]
+  owner_id integer [not null]
+  name varchar(100) [not null]
+}
+
+Table collection_samples {
+  collection_id integer [not null]
+  sample_id integer [not null]
+
+  indexes {
+    (collection_id, sample_id) [pk]
+  }
+}
+
+Table ratings {
+  rating_id integer [pk, increment]
+  user_id integer [not null]
+  sample_id integer [not null]
+  rating integer [not null]
+
+  indexes {
+    (user_id, sample_id) [unique]
+  }
+
+  Note: 'Should priority; one current rating per user and sample.'
+}
+
+Table downloads {
+  download_id integer [pk, increment]
+  user_id integer [not null]
+  sample_id integer [null, note: 'Becomes NULL after permanent sample deletion.']
+  downloaded_at timestamp [not null]
+}
+
+Table login_events {
+  login_event_id integer [pk, increment]
+  user_id integer [not null]
+  logged_in_at timestamp [not null]
+}
+
+Ref: samples.owner_id > users.user_id [delete: restrict]
+Ref: collections.owner_id > users.user_id [delete: restrict]
+Ref: ratings.user_id > users.user_id [delete: restrict]
+Ref: downloads.user_id > users.user_id [delete: restrict]
+Ref: login_events.user_id > users.user_id [delete: restrict]
+Ref: sample_tags.sample_id > samples.sample_id [delete: cascade]
+Ref: sample_tags.tag_id > tags.tag_id [delete: cascade]
+Ref: collection_samples.collection_id > collections.collection_id [delete: cascade]
+Ref: collection_samples.sample_id > samples.sample_id [delete: cascade]
+Ref: ratings.sample_id > samples.sample_id [delete: cascade]
+Ref: downloads.sample_id > samples.sample_id [delete: set null]
