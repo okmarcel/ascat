@@ -1,6 +1,6 @@
 # Planning
 
-Draft doc for planning.
+Project scope and implementation plan.
 
 ## Description
 
@@ -185,3 +185,56 @@ Administrator can:
 - access administrative reports
 
 Only an administrator can permanently remove a sample from the database.
+
+## Requirements Prioritization (MoSCoW)
+
+### Must have
+
+- PostgreSQL database with a reproducible schema and sample data
+- Users and authentication
+- User and administrator roles with different permissions
+- Uploading, browsing, editing and downloading audio samples
+- Sample metadata: name, length, tempo, file format, upload date and owner
+- Searching samples by name
+- Filtering samples by tempo, tags, owner and upload date
+- Tags and collections
+- Soft deletion of samples by users
+- Restoration and permanent deletion of samples by administrators
+- Download history
+- Login history
+- User activity statistics based on uploads, downloads, ratings and logins
+- Database-level data integrity through keys and constraints
+- Meaningful 1:N and N:M relations
+- Forms or views for browsing and editing application data
+- At least three reports backed by database queries or views
+
+### Should have
+
+- Sample ratings
+- One rating per user and sample
+- Aggregate rating information in sample and user reports
+- Administrative panel or a complete set of admin-only API operations
+- Database views for recurring reports and statistics
+- Database functions and triggers for selected business rules
+
+### Could have
+
+- PostgreSQL Full Text Search
+- Advanced filtering
+- Searching for similar samples
+- Sample recommendations based on user activity
+- Automatic tempo and key detection
+- Loudness/RMS analysis
+- Waveform generation
+
+### Won't have in the current scope
+
+- Music streaming and playlist playback
+- Social-network features such as following users or public messaging
+- Automatic copyright/licensing verification
+- Production-scale object storage and content delivery infrastructure
+- Native desktop or mobile clients
+
+Items in the Should and Could categories must not block delivery of the Must
+scope. Ratings remain part of the planned system, but are explicitly assigned
+Should priority.
