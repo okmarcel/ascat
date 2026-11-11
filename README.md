@@ -38,6 +38,11 @@ On the first start with an empty Docker volume, PostgreSQL automatically runs
 in `/docker-entrypoint-initdb.d` are not rerun when an existing database volume
 is reused. The initial script defines tables, constraints and indexes.
 
+## Sample data
+
+Load the optional database fixtures after creating the schema:
+[seed instructions](database/seeds/README.md).
+
 ## Recreating the development database
 
 To recreate the database from the initialization scripts, stop the service and
