@@ -43,6 +43,11 @@ is reused. The initial script defines tables, constraints and indexes.
 Load the optional database fixtures after creating the schema:
 [seed instructions](database/seeds/README.md).
 
+## SQL examples and reports
+
+[Basic operations, filters and three reports](database/queries/README.md)
+include execution commands and expected results for the sample data.
+
 ## Recreating the development database
 
 To recreate the database from the initialization scripts, stop the service and
